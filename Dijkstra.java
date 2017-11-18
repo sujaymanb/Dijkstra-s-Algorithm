@@ -48,7 +48,7 @@ public class Dijkstra {
 		Q.decreaseKey(0, pathcost);
 		List<Vertex> Vt = new List();
 
-		for(int i = 0; i < n-1; i++) {
+		for(int i = 0; i < n; i++) {
 			currentVertex = Q.deleteMin();
 			System.out.println("Vertex: " + currentVertex.name + ", Cost: " + currentVertex.cost + ", No. of Adj: " + currentVertex.adjacent.size());
 			Vt.insert(currentVertex);

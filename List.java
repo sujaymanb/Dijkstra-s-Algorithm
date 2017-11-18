@@ -1,8 +1,5 @@
-import java.util.*;
-
-
 // node for linked list
-class Node<T> {
+class Node<T extends Comparable> {
 	private T value;
 	private Node<T> next;
 
@@ -25,7 +22,7 @@ class Node<T> {
 }
 
 // linked list to store adjacent nodes of graph
-public class List<T> {
+public class List<T extends Comparable> {
 	private Node<T> first = null;
 	private int size;
 
@@ -38,7 +35,8 @@ public class List<T> {
 		this.size = 0;
 	}
 
-	public void insert(Node<T> node) {
+	public void insert(T value) {
+		Node<T> node = new Node(value);
 		node.setNext(first);
 		first = node;
 		this.size++;
@@ -60,8 +58,8 @@ public class List<T> {
 		Node<T> item = first;
 		while(index < i) {
 			item = item.getNext();
+			index++;
 		}
-
 		return item.getValue();
 	}
 
@@ -74,32 +72,15 @@ public class List<T> {
 		}
 		return false;
 	}
-}
 
-// vertex of a graph
-public class Vertex implements Comparable<Vertex>{
-	public int name;
-	public boolean visited;
-	public List<Edge> adjacent;
-	public int cost;
-	public Vertex parent;
+	// debug
+	/*
+	public void print() {
+		Node<T> ptr = first;
 
-	public Vertex(int name) {
-		this.name = name;
-		this.visited = false;
-		this.cost = Integer.MAX_VALUE;
-		this.parent = null;
-	}
-
-	@override
-	public int compareTo(Vertex other) {
-		return Integer.compare(this.cost, other.cost);
-	}
-}
-
-// edges
-public class Edge {
-	public Vertex from;
-	public Vertex to;
-	public int weight;
+		while(ptr != null) {
+			System.out.println(ptr.getValue());
+			ptr = ptr.getNext();
+		}
+	}*/
 }

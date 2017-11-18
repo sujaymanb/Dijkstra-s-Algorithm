@@ -55,7 +55,7 @@ public class MinHeap
 	{
 		if (isEmpty())
 			throw new NoSuchElementException("Underflow");
-		int item = heap[i];
+		Vertex item = heap[i];
 		heap[i] = heap[heapSize - 1];
 		heapSize--;
 		heapifyDown(i);
@@ -77,7 +77,7 @@ public class MinHeap
 		Vertex tmp = heap[i];
 		while(kthChild(i, 1) < heapSize) {
 			child = minChild(i);
-			if(heap[child] < tmp)
+			if(heap[child].compareTo(tmp) < 0)
 				heap[i] = heap[child];
 			else
 				break;
@@ -87,7 +87,7 @@ public class MinHeap
 	}
 
 	public void decreaseKey(int i, int newval) {
-		heap[i].cost = new_val;
+		heap[i].cost = newval;
 		while(i != 0 && heap[parent(i)].compareTo(heap[i]) > 0) {
 			Vertex tmp = heap[i];
 			heap[i] = heap[parent(i)];
@@ -96,24 +96,25 @@ public class MinHeap
 		}
 	}
 
-	private minChild(int i) {
+	private int minChild(int i) {
 		int best = kthChild(i, 1);
 		int k = 2;
 		int pos = kthChild(i, k);
 		while((k <= d) && (pos < heapSize)) {
 			if(heap[pos].compareTo(heap[best]) < 0 )
 				best = pos;
-			pos = kthChild(ind, k++);
+			pos = kthChild(i, k++);
 		}
-		return bestChild;
+		return best;
 	}
 
 	public int findKeyByName(int name) {
 		for (int i = 0; i < heapSize; i++) {
-			if heap[i].name = name;
-			return i;
+			if (heap[i].name == name) {
+				return i;
+			}	
 		}
 
-		return null;
+		return -1;
 	} 
 }

@@ -34,7 +34,7 @@ public class MinHeap
 
 	public void insert(Vertex x) {
 		if (isFull())
-			throw new NoSuchElementException("Overflow");
+			throw new NoSuchElementException("Heap Full");
 
 		heap[heapSize++] = x;
 		heapifyUp(heapSize - 1);
@@ -42,9 +42,16 @@ public class MinHeap
 
 	public Vertex findMin() {
 		if (isEmpty())
-			throw new NoSuchElementException("Underflow");
+			throw new NoSuchElementException("Heap Empty");
 
 		return heap[0];
+	}
+
+	public Vertex get(int i) {
+		if (isEmpty())
+			throw new NoSuchElementException("Heap Empty");
+
+		return heap[i];
 	}
 
 	public Vertex deleteMin() {
@@ -54,7 +61,7 @@ public class MinHeap
 	public Vertex delete(int i)
 	{
 		if (isEmpty())
-			throw new NoSuchElementException("Underflow");
+			throw new NoSuchElementException("Heap Empty");
 		Vertex item = heap[i];
 		heap[i] = heap[heapSize - 1];
 		heapSize--;
@@ -116,5 +123,7 @@ public class MinHeap
 		}
 
 		return -1;
-	} 
+	}
+
+
 }

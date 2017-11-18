@@ -54,16 +54,19 @@ public class Dijkstra {
 			Vt.insert(currentVertex);
 			
 			for (int j = 0; j < currentVertex.adjacent.size(); j++) {
-				System.out.println("Adjacent: " + currentVertex.adjacent.get(j).to.name);
 				edge = currentVertex.adjacent.get(j);
-
+				adjVertex = Q.get(Q.findKeyByName(edge.to.name));
+				System.out.println("Adjacent: " + edge.to.name);
+				
 				if(Vt.inList(edge.to)) {
 					continue;
-				} else if ((currentVertex.cost + edge.weight) < edge.to.cost){
+				} else if ((currentVertex.cost + edge.weight) < adjVertex.cost){
+					System.out.println("New cost: " + (currentVertex.cost + edge.weight));
 					edge.to.cost = currentVertex.cost + edge.weight;
 					edge.to.parent = currentVertex;
 					Q.decreaseKey(Q.findKeyByName(edge.to.name), edge.to.cost);
-				}
+				} 
+				
 			}
 
 		}

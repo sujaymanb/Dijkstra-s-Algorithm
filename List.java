@@ -69,6 +69,7 @@ public class List<T extends Comparable> {
 			if(item.getValue().compareTo(value) == 0) {
 				return true;
 			}
+			item = item.getNext();
 		}
 		return false;
 	}

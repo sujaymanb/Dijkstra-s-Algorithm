@@ -26,15 +26,18 @@ public class List<T extends Comparable> {
 	private Node<T> first = null;
 	private int size;
 
+	// constructor with a starting node
 	public List(Node<T> start){
 		this.first = start;
 		this.size = 1;
 	}
 
+	// blank constructor
 	public List(){
 		this.size = 0;
 	}
 
+	// insert a value into the list
 	public void insert(T value) {
 		Node<T> node = new Node(value);
 		node.setNext(first);
@@ -49,10 +52,12 @@ public class List<T extends Comparable> {
 		this.size--;
 	}
 
+	// size of list
 	public int size() {
 		return size;
 	}
 
+	// return the item with given index
 	public T get(int i) {
 		int index = 0;
 		Node<T> item = first;
@@ -63,6 +68,7 @@ public class List<T extends Comparable> {
 		return item.getValue();
 	}
 
+	// check if the given vertex is in list
 	public boolean inList(T value) {
 		Node<T> item = first;
 		for(int i = 0; i < this.size; i++) {

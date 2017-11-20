@@ -3,12 +3,16 @@ import java.util.Arrays;
 import java.util.NoSuchElementException;
 
 public class Dijkstra {
+	/* Utility functions */
+	// =============================
+	// creates the path string, this method adds the new vertex in front of the string
 	public static String addToPath(String add, String path){
 		String newpath = "";
 		newpath = add + " " + path;
 		return newpath;
 	}
 
+	// gets the path from the vertex by going through parents iteratively
 	public static String getPath(int start, Vertex currentVertex, String path) {
 		path += Integer.toString(currentVertex.name);
 		while(currentVertex.parent != null || currentVertex.name != start) {
@@ -18,6 +22,7 @@ public class Dijkstra {
 		return path;
 	}
 
+	// prints the final output
 	private static void printPath(List<Vertex> Vt) {
 		Vertex currentVertex;		
 		for(int i = 0; i < Vt.size(); i++) {
@@ -28,13 +33,14 @@ public class Dijkstra {
 			System.out.println(": " + path + " cost: " + currentVertex.cost);
 		}	
 	}
-
+	// ===============================
+	/* Main */
 	public static void main(String[] args) {
 		Scanner input = new Scanner(System.in);
 		
-		// Create graph
+		// Initialize the heap
+		// get n
 		int n = Integer.parseInt(input.nextLine());
-		//Vertex[] graph = new Vertex[n];
 		MinHeap Q = new MinHeap(n);
 
 		int current, adj, adjWeight;
@@ -42,17 +48,16 @@ public class Dijkstra {
 		Edge edge;
 
 		String newline;
-		//System.out.println(n);
-
+		
+		// add the vertices to the heap
 		for(int i = 0; i < n; i++) {
 			newline = input.nextLine();
 			Scanner line = new Scanner(newline);
 			current = line.nextInt();
 			currentVertex = new Vertex(current);
-			//System.out.println("Vertex: "+ current);
-
+			
+			// add edges to the vertices (adjacent vertices)
 			while(line.hasNextInt()) {
-				int tempcounter = 0;
 				adj = line.nextInt();
 				adjVertex = new Vertex(adj);
 				adjWeight = line.nextInt();
@@ -61,16 +66,16 @@ public class Dijkstra {
 				edge.from = currentVertex;
 				edge.weight = adjWeight;
 				currentVertex.adjacent.insert(edge);
-				//System.out.println("Edge: " + currentVertex.adjacent.get(tempcounter).to.name);
-				tempcounter++;
 			}
+
 			Q.insert(currentVertex);
 			System.out.println("Inserting " + current);
 			line.close();
 		}
 
+		// go through the heap updating their cost
 		int pathcost = 0;
-		// starting node
+		// starting node cost is 0
 		Q.decreaseKey(Q.findKeyByName(1), pathcost);
 		List<Vertex> Vt = new List();
 
@@ -78,16 +83,16 @@ public class Dijkstra {
 			currentVertex = Q.deleteMin();
 			System.out.println("Deleting " + currentVertex.name);
 			Vt.insert(currentVertex);
-			
+			// for each adjacent vertices
 			for (int j = 0; j < currentVertex.adjacent.size(); j++) {
 				edge = currentVertex.adjacent.get(j);
-				
+				// if the vertex has already been added to Vt, skip
 				if(Vt.inList(edge.to)) {
 					continue;
 				}
 
 				adjVertex = Q.get(Q.findKeyByName(edge.to.name));
-				
+				// update the cost
 				if ((currentVertex.cost + edge.weight) < adjVertex.cost){
 					edge.to.cost = currentVertex.cost + edge.weight;
 					Q.vertexUpdateParent(Q.findKeyByName(edge.to.name), currentVertex);
@@ -99,6 +104,7 @@ public class Dijkstra {
 
 		}
 
+		// output
 		printPath(Vt);
 	}
 }

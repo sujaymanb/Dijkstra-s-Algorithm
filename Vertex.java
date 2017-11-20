@@ -16,10 +16,15 @@ public class Vertex implements Comparable<Vertex>{
 		this.parent = null;
 		this.adjacent = new List();
 	}
+
+	// override the compareTo method of Comparable
+	// returns value > 0 if greater, < 0 if less than other
 	@Override
 	public int compareTo(Vertex other) {
 		return Integer.compare(this.cost, other.cost);
 	}
+
+	// override the equals method of Object class
 	@Override
 	public boolean equals(Object obj) {
 		Vertex other = (Vertex) obj;

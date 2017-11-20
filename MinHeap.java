@@ -2,9 +2,6 @@ import java.util.Scanner;
 import java.util.Arrays;
 import java.util.NoSuchElementException;
 
-// TODO: implement decreasekey
-// TODO: make it non generic (vertex)
-
 public class MinHeap
 {
 	private static final int d = 2;
@@ -125,5 +122,7 @@ public class MinHeap
 		return -1;
 	}
 
-
+	public void vertexUpdateParent(int i, Vertex parent) {
+		heap[i].parent = parent;	
+	}
 }

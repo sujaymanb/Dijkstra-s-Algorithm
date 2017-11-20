@@ -3,6 +3,42 @@ import java.util.Arrays;
 import java.util.NoSuchElementException;
 
 public class Dijkstra {
+	public static String reverse(String input){
+		char[] in = input.toCharArray();
+		int begin=0;
+		int end=in.length-1;
+		char temp;
+		while(end>begin){
+		    temp = in[begin];
+		    in[begin]=in[end];
+		    in[end] = temp;
+		    end--;
+		    begin++;
+		}
+		return new String(in);
+	}
+
+	public static String getPath(int start, Vertex currentVertex, String path) {
+		path += Integer.toString(currentVertex.name);
+		while(currentVertex.parent != null || currentVertex.name != start) {
+			currentVertex = currentVertex.parent;			
+			path += " ";
+			path += Integer.toString(currentVertex.name);
+		}
+		return reverse(path);
+	}
+
+	private static void printPath(List<Vertex> Vt) {
+		Vertex currentVertex;		
+		for(int i = 0; i < Vt.size(); i++) {
+			currentVertex = Vt.get(i);
+			String path = "";		
+			System.out.print("Shortest path to " + currentVertex.name);
+			path = getPath(1, currentVertex, path);
+			System.out.println(": " + path + " cost: " + currentVertex.cost);
+		}	
+	}
+
 	public static void main(String[] args) {
 		Scanner input = new Scanner(System.in);
 		
@@ -38,8 +74,8 @@ public class Dijkstra {
 				//System.out.println("Edge: " + currentVertex.adjacent.get(tempcounter).to.name);
 				tempcounter++;
 			}
-
 			Q.insert(currentVertex);
+			System.out.println("Inserting " + current);
 			line.close();
 		}
 
@@ -50,6 +86,7 @@ public class Dijkstra {
 
 		for(int i = 0; i < n; i++) {
 			currentVertex = Q.deleteMin();
+			System.out.println("Deleting " + currentVertex.name);
 			System.out.println("Vertex: " + currentVertex.name + ", Cost: " + currentVertex.cost + ", No. of Adj: " + currentVertex.adjacent.size());
 			Vt.insert(currentVertex);
 			
@@ -63,17 +100,15 @@ public class Dijkstra {
 				} else if ((currentVertex.cost + edge.weight) < adjVertex.cost){
 					System.out.println("New cost: " + (currentVertex.cost + edge.weight));
 					edge.to.cost = currentVertex.cost + edge.weight;
-					edge.to.parent = currentVertex;
+					Q.vertexUpdateParent(Q.findKeyByName(edge.to.name), currentVertex);
 					Q.decreaseKey(Q.findKeyByName(edge.to.name), edge.to.cost);
+					System.out.println("Updating the value of " + edge.to.name + " in the queue");
 				} 
 				
 			}
 
 		}
 
-		for(int i = 0; i < Vt.size(); i++) {
-			currentVertex = Vt.get(i);
-			System.out.println(currentVertex.name + ", " + currentVertex.cost + "\n");
-		}
+		printPath(Vt);
 	}
 }

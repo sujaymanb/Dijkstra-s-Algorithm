@@ -66,7 +66,7 @@ public class List<T extends Comparable> {
 	public boolean inList(T value) {
 		Node<T> item = first;
 		for(int i = 0; i < this.size; i++) {
-			if(item.getValue().compareTo(value) == 0) {
+			if(item.getValue().equals(value)) {
 				return true;
 			}
 			item = item.getNext();

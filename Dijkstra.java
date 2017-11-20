@@ -3,29 +3,19 @@ import java.util.Arrays;
 import java.util.NoSuchElementException;
 
 public class Dijkstra {
-	public static String reverse(String input){
-		char[] in = input.toCharArray();
-		int begin=0;
-		int end=in.length-1;
-		char temp;
-		while(end>begin){
-		    temp = in[begin];
-		    in[begin]=in[end];
-		    in[end] = temp;
-		    end--;
-		    begin++;
-		}
-		return new String(in);
+	public static String addToPath(String add, String path){
+		String newpath = "";
+		newpath = add + " " + path;
+		return newpath;
 	}
 
 	public static String getPath(int start, Vertex currentVertex, String path) {
 		path += Integer.toString(currentVertex.name);
 		while(currentVertex.parent != null || currentVertex.name != start) {
 			currentVertex = currentVertex.parent;			
-			path += " ";
-			path += Integer.toString(currentVertex.name);
+			path = addToPath(Integer.toString(currentVertex.name), path);
 		}
-		return reverse(path);
+		return path;
 	}
 
 	private static void printPath(List<Vertex> Vt) {
@@ -81,24 +71,24 @@ public class Dijkstra {
 
 		int pathcost = 0;
 		// starting node
-		Q.decreaseKey(0, pathcost);
+		Q.decreaseKey(Q.findKeyByName(1), pathcost);
 		List<Vertex> Vt = new List();
 
 		for(int i = 0; i < n; i++) {
 			currentVertex = Q.deleteMin();
 			System.out.println("Deleting " + currentVertex.name);
-			System.out.println("Vertex: " + currentVertex.name + ", Cost: " + currentVertex.cost + ", No. of Adj: " + currentVertex.adjacent.size());
 			Vt.insert(currentVertex);
 			
 			for (int j = 0; j < currentVertex.adjacent.size(); j++) {
 				edge = currentVertex.adjacent.get(j);
-				adjVertex = Q.get(Q.findKeyByName(edge.to.name));
-				System.out.println("Adjacent: " + edge.to.name);
 				
 				if(Vt.inList(edge.to)) {
 					continue;
-				} else if ((currentVertex.cost + edge.weight) < adjVertex.cost){
-					System.out.println("New cost: " + (currentVertex.cost + edge.weight));
+				}
+
+				adjVertex = Q.get(Q.findKeyByName(edge.to.name));
+				
+				if ((currentVertex.cost + edge.weight) < adjVertex.cost){
 					edge.to.cost = currentVertex.cost + edge.weight;
 					Q.vertexUpdateParent(Q.findKeyByName(edge.to.name), currentVertex);
 					Q.decreaseKey(Q.findKeyByName(edge.to.name), edge.to.cost);
